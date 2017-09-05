@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="pokedex.css">
+    <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>My Pokedex</title>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="pictures">
+      </div>
+      <div id="selected">
+      </div>
+    </div>
+
+
+
+  <script>
+  $('document').ready(function() {
+    var imgURL = "http://pokeapi.co/media/img/";
+
+    for(var i = 1; i < 152; i++){
+    $('#pictures').append('<img id="' + i + '" src= "' + imgURL + i + '.png">');
+  }
+
+  $('img').click(function() {
+    var pokeid = $(this).attr('id');//variable storing the id of that specific pokemon
+    var pokeURL = "http://pokeapi.co/api/v1/pokemon/"+ pokeid;//the address that links all info to that specific pokemon
+
+    $.get(pokeURL, function(res) {//we want to get the info from that address, on whatever poke is clicked
+        $("#selected").html("<h2>" + res.name + "</h2>");//we have to create a new html environment for each poke selected
+        $('#selected').append('<img id="' + i + '" src= "' + imgURL + pokeid + '.png">');//add image for specific poke
+        $('#selected').append('<h4>Types</h4>');//header for types
+        $('#selected').append('<ul>');//create a list of types
+        for(var i = 0; i < res.types.length; i++){//some have more than one type, so we can interate through all of them
+          $('#selected').append('<li>' + res.types[i].name + '</li>');//append each of the types that are listed
+        }
+        $('#selected').append('<h4>Height</h4>');//header for height
+        $('#selected').append(res.height);//append the height for that specific poke
+        $('#selected').append('<h4>Weight</h4>');//header fo weight
+        $('#selected').append(res.weight);//append weight for that specific poke
+    },"json");//json gives feedback that the computer can understand...the computer doesn't understand what "charmander" is
+  })
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+  </body>
+</html>
